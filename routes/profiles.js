@@ -11,7 +11,7 @@ var photoBucket = new AWS.S3({params: {Bucket: BucketName}})
 var multer = require('multer')
 const multerS3 = require('multer-s3');
 var MAX_FILE_SIZE = 2*1024*1024 //2 MB 
-
+const onFinished = require('on-finished');
 
 var upload = multer({
     limits:{
@@ -26,7 +26,18 @@ var upload = multer({
             cb(null, { fieldName: file.fieldname });
         },
         key: function (req, file, cb) {
-            cb(null, Date.now().toString())
+            //editing profile 
+            if(req.body.profile !== undefined)
+            {
+                Profile.findById(req.params.id,function(err, Profile){
+                    var url = Profile.profileHeroImage
+                    cb(null,url.split('/').slice(-1)[0])
+                });  
+            }
+            //creating profile 
+            else{
+                cb(null, Date.now().toString())
+            }
         }
     })
 }).single('profileHeroImage') 
@@ -46,9 +57,13 @@ router.get("/", function(req, res){
 // CREATE new profile route
 
 router.post("/",upload,function(req, res){
-
+    if(isFileExists(req)==false)
+     {
+        req.flash("error", "Please Choose a File");
+        return res.redirect("back")
+     }
     if (!/^image\/(jpe?g|png|gif)$/i.test(req.file.mimetype)) {
-       // return res.status(403).send('expect image file').end();
+       
          req.flash("error", "Only Image file can be uploaded !!!");
          return res.redirect("back");
     }
@@ -86,15 +101,14 @@ var newProfile = {name: name, userEmail: userEmail,description: desc,
      industryImprove:industryImprove, recommendsFirst:recommendsFirst, 
      recommendsSecond:recommendsSecond, recommendsThird:recommendsThird}
 //Create a new profile and save to DB
+
 Profile.create(newProfile, function(err, newlyCreated){
    if(err){
        console.log(err);
        req.flash("error", err.message);
        return res.redirect("back");
    } else {
-        //file
-        console.log(req.file)
-        //update file's location 
+        //update file's location to db
         Profile.findByIdAndUpdate(newlyCreated._id, { $set: { profileHeroImage: req.file.location }}, { new: true },function(err, updatedProfile){
             if(err){
                 console.log(err);
@@ -138,12 +152,13 @@ router.get("/:id/edit", middleware.checkProfileOwnership, function(req, res) {
     });
 });
 
-// UPDATE profile route
-router.put("/:id", middleware.checkProfileOwnership, function(req, res){
+
+router.put("/:id",upload, middleware.checkProfileOwnership,function(req, res){
     Profile.findByIdAndUpdate(req.params.id, req.body.profile, function(err, updatedProfile){
         if (err){
             res.redirect("/profiles");
         } else {
+            
             res.redirect("/profiles/" + req.params.id);
         }
     });
@@ -160,20 +175,14 @@ router.delete("/:id", middleware.checkProfileOwnership, function(req, res){
    }); 
 });
 
-function uploadToS3(file, destFileName, callback) {
-    photoBucket
-        .upload({
-            ACL: 'public-read', 
-            Body: file, 
-            Key: destFileName.toString(),
-            ContentType: 'application/octet-stream'
-        })
-        .send(callback);
+function isFileExists(request){
+    if(request.file)
+    {
+        return true 
+    }
+    else{
+        return false
+    }
 }
-
-
-    
-   
-
 
 module.exports= router;
