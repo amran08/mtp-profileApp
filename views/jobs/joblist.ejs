@@ -1,0 +1,35 @@
+<% include ../partials/header %>
+
+<div class="container">
+    <header class="jumbotron jumbotron-2">
+        <div class="container">
+            <h1 id="mtp-h1">Add a job listing</h1>
+            <p>Simply create a job ad free and find your future legends</p>
+            <a class="btn btn-primary btn-lg" href="/jobs/new">LIST A JOB</a>
+        </div>
+    </header>
+
+    <!-- SECTION 1 -->
+    <div class="jobs-section1">
+      <h2>MEET YOUR NEW CAREER</h2>
+      <h5>Find your next epic job at one these amazing employers below</h5>
+    </div>
+
+    <table class="table table-hover">
+        <tr class="active">
+            <th>Hiring Business & Role</th>
+            <th>Location</th>
+            <th> </th>
+        </tr>
+        <% jobs.forEach(function(job){ %>
+            <tr>
+                <th id="#mtp-h1"><strong><%=job.jobVenueName%></strong> is looking for a <strong><%= job.jobRole %></strong></th>
+                <th id="#mtp-h1"><strong><%=job.jobLocation %></strong>, <strong><%= job.jobCountry %></strong></th>
+                <th><a href="/jobs/<%= job._id %>" class="btn btn-outline-primary btn-sm">Learn More</a></th>
+            </tr>    
+        <% }); %> 
+    </table>
+    
+</div>
+
+<% include ../partials/footer %>

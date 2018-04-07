@@ -1,0 +1,111 @@
+<% include ../partials/header %>
+<div class="container">
+<a id="show-btn" class="btn btn-secondary btn-sm" href="/profiles">Back to profiles</a>
+    <div class="row">
+        <div class="col-md-6 offset-md-3" style="text-align: center;" >
+            <h1 id="mtp-h1">Create a profile</h1>
+            <p>Share your own story and connect with like-minded legends</p>
+            <br>
+        </div>
+        <div class="col-md-6">
+        <form action="/profiles" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label>Your Name</label>
+                    <input class="form-control" type="text" name="name" placeholder="A nickname is fine.. this isnt LinkedIn" >
+                </div>
+                <div class="form-group">
+                    <label>Your Email</label>
+                    <input class="form-control" type="email" name="userEmail" placeholder="person@something.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Upload a Profile Image</label>
+                    <input class="form-control" 
+                     id ="profileHeroImage"
+                     type="file" 
+                     name="profileHeroImage" placeholder="" 
+                     onchange=""
+                     accept="application/x-zip-compressed,image/*"  required>
+                     
+
+                    <p>Good quality pics please. This ain't no shitshow</p>
+                </div>
+                <div class="form-group">
+                    <label>Where do you currently work?</label>
+                    <input class="form-control" type="text" name="venue" >
+                </div>
+                <div class="form-group">
+                    <label>What is your current role?</label>
+                    <input class="form-control" type="text" name="role" >
+                </div>
+                <div class="form-group">
+                    <label>Your Current City</label>
+                    <input class="form-control" type="text" name="currentCity" >
+                </div>
+                <div class="form-group">
+                    <label>Your Country</label>
+                    <input class="form-control" type="text" name="currentCountry" maxlength="3" placeholder="3 letter abbreviation please Ie. AUS" >
+                </div>
+                <div class="form-group">
+                    <label>What's your Insta profile?</label>
+                    <p class="form-control">@ <input class="col-md-4" type="text" name="instaHandle"></p>
+                </div>
+                <div class="form-group">
+                    <label>And Twitter handle?</label>
+                    <p class="form-control">@ <input class="col-md-4" type="text" name="twitterHandle"></p>
+                </div>
+                <div class="form-group">
+                    <label>Tell us a little quote you live by</label>
+                    <textarea class="form-control" rows="3" maxlength="200" type="text" name="quote" placeholder="Max 200 characters please" ></textarea>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label>Tell us a little intro about yourself</label>
+                    <textarea class="form-control" rows="5" type="text" maxlength="1000" name="description" placeholder="How ended up where you are. Max 1000 characters" ></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Where did you cut your teeth and what lessons did you learn?</label>
+                    <textarea class="form-control" rows="5" type="text" name="learnSkills" maxlength="1000" placeholder="Tell us the juicy and interesting stories." ></textarea>
+                </div>
+                <div class="form-group">
+                    <label>What's your greatest achievement?</label>
+                    <textarea class="form-control" rows="3" type="text" name="achievements" maxlength="600" placeholder="We know you're a winner" ></textarea>
+                </div>
+                <div class="form-group">
+                    <label>What are you passionate about?</label>
+                    <textarea class="form-control" rows="3" type="text" name="passionateAbout" maxlength="600" placeholder="Don't be lame and say cocktails" ></textarea>
+                </div>
+                <div class="form-group">
+                    <label>What do you love about your industry?</label>
+                    <textarea class="form-control" rows="3" type="text" name="industryLove" maxlength="600" placeholder="Unleash the compliments" ></textarea>
+                </div>
+                <div class="form-group">
+                    <label>If you could change something about your industry what would it be?</label>
+                    <textarea class="form-control" rows="3" type="text" name="industryImprove" maxlength="1000" placeholder="Go on, we're all friends here" ></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Tell us 3 businesses or establishments that you would recommend for a great experience</label>
+                    <p class="form-control"><i class="fa fa-coffee" aria-hidden="true"></i> <input type="text" name="recommendsFirst" maxlength="100" ></p>
+                    <p class="form-control"><i class="fa fa-cutlery" aria-hidden="true"></i> <input type="text" name="recommendsSecond" maxlength="100" ></p>
+                    <p class="form-control"><i class="fa fa-glass" aria-hidden="true"></i> <input type="text" name="recommendsThird" maxlength="100" ></p>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-lg btn-outline-primary btn-block">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+
+function PreviewImage() {
+        var oFReader = new FileReader();
+        oFReader.readAsDataURL(document.getElementById("profileHeroImage").files[0]);
+        oFReader.onload = function (oFREvent) {
+            document.getElementById("uploadPreview").src = oFREvent.target.result;
+        };
+    }
+</script>    
+
+<% include ../partials/footer %>

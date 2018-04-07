@@ -1,0 +1,92 @@
+<% include ../partials/header %>
+<div class="container">
+    <a id="show-btn" class="btn btn-secondary btn-sm" href="/profiles">Back to profiles</a>
+    <div class="row">
+        <div class="col-md-9">
+            <div id="card-no-outline" class="card">
+                    <h1 class="card-title show-name">MEET <%=profile.name%></h1>
+                    <h4 class="card-text"><%= profile.role %> @ <strong><%= profile.venue %></strong> in <%= profile.currentCity %>, <%= profile.currentCountry %></h4>
+                    <img class="card-img-top img-fluid" src="<%= profile.profileHeroImage%>">
+                    <p class="qoute">" <%= profile.quote %> "</p>                
+                    <div class="card-text-padding">
+                        <div class="caption-full">
+                                <strong><p>Here is a little into about <%=profile.name%></p></strong>
+                                <p><%= profile.description %></p>
+                                <strong><p>I cut my teeth and learnt all my skills by..</p></strong>
+                                <p><%= profile.learnSkills %></p>
+                                <strong><p>The achievement I'm most proud of is..</p></strong>
+                                <p><%= profile.achievements %></p>
+                                <strong><p>I'm really passionate about..</p></strong>
+                                <p><%= profile.passionateAbout %></p>
+                                <strong><p>What I love about my industry is..</p></strong>
+                                <p><%= profile.industryLove %></p>
+                                <strong><p>If i could change something about my industry it would be..</p></strong>
+                                <p><%= profile.industryImprove %></p>
+                                <p>
+                                    <em>Submitted by <%= profile.author.username %></em>
+                                </p>
+                                <% if(currentUser && profile.author.id.equals(currentUser._id)){ %>
+                                <a class="btn btn-xs btn-warning" href="/profiles/<%= profile._id %>/edit">Edit</a>
+                                <form id="delete-form" action="/profiles/<%= profile._id %>?_method=DELETE" method="POST">
+                                    <button class="btn btn-xs btn-danger">Delete</button>
+                                </form>
+                                <% } %>
+                        </div>
+                    </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-lg-3 mb20">
+                <h2 id="mtp-h4">I recommend you try</h2>
+                <div class="list-group">
+                    <ul class="social-list">
+                        <li><p><i class="fa fa-coffee" aria-hidden="true"></i>  <%= profile.recommendsFirst %></p></li>
+                        <li><p><i class="fa fa-cutlery" aria-hidden="true"></i>  <%= profile.recommendsSecond %></p></li>
+                        <li><p><i class="fa fa-glass" aria-hidden="true"></i>  <%= profile.recommendsThird %></p></li>
+                    </ul>
+                </div>
+                </br>
+                <h2 id="mtp-h4">Follow Me</h2>
+                <div class="list-group">
+                    <ul class="social-list">
+                        <li><i class="fa fa-instagram" aria-hidden="true"></i> <a href="https://www.instagram.com/<%= profile.instaHandle %>" target="_blank">/<%= profile.instaHandle %></a></li>
+                        <li><i class="fa fa-twitter" aria-hidden="true"></i> <a href="https://twitter.com/<%= profile.twitterHandle %>" target="_blank">/<%= profile.twitterHandle %></a></li>
+                    </ul>
+                </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-9">
+            <div class="well">
+                        <div class="text-right">
+                                <a class="btn btn-secondary btn-sm" href="/profiles/<%= profile._id %>/comments/new">Add a comment</a>
+                        </div>
+                        <hr>
+                        <% profile.comments.forEach(function(comment){ %>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <strong><%= comment.author.username %></strong>
+                                    <span class="pull-right">Date added TBC</span>
+                                    <p>
+                                        <%= comment.text %>
+                                    </p>
+                                <% if(currentUser && comment.author.id.equals(currentUser._id)){ %>
+                                    <a class="btn btn-xs btn-warning" 
+                                        href="/profiles/<%= profile._id %>/comments/<%= comment._id %>/edit">
+                                        Edit
+                                    </a>
+                                    <form id="delete-form" action="/profiles/<%= profile._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
+                                        <input type="submit" class="btn btn-xs btn-danger" value="Delete">
+                                    </form>
+                                <% } %>
+                                </div>
+                            </div>
+                        <% }) %>    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>    
+
+
+<% include ../partials/footer %>

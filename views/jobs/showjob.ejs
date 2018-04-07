@@ -1,0 +1,46 @@
+<% include ../partials/header %>
+<div class="container">
+    <a id="show-btn" class="btn btn-secondary btn-sm" href="/jobs">Back to jobs list</a>
+    <div class="row">
+        <div class="col-md-9">
+            <h2>Dont you want to be the</h2>
+            <h1 class="show-name"><%= jobs.jobRole %> @ <strong><%= jobs.jobVenueName %></strong>?</h1>
+            <br>
+            <div class="card">
+                <div class="card-text">
+                    <h4>This job is located in <strong><%= jobs.jobLocation %>, <%= jobs.jobCountry %></strong></h4>
+                </div>
+                <br>
+                <div class="card-text">
+                    <strong><p>Job description</p></strong>
+                    <p><%= jobs.jobDesc %></p>
+                </div>
+                <div class="card-text">
+                    <strong><p>Start date</p></strong>
+                    <p><%= jobs.jobStartDate %></p>
+                </div>
+                <div class="card-text">
+                    <strong><p>Think you got what it takes? Please contact:</p></strong>
+                    <p><%= jobs.jobContactName %> on <%= jobs.jobContactPhone %></p>
+                    <p>email: <a href="mailto:<%= jobs.jobContactEmail %>"><%= jobs.jobContactEmail %></a></p>
+                </div>     
+                <div>                                    
+                    <div class="card-text">
+                        <p>posted by <%= jobs.jobAuthor.username %> on <%= jobs.date %></p>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                <% if(currentUser && jobs.jobAuthor.id.equals(currentUser._id)){ %>
+                    <a class="btn btn-xs btn-warning" href="/jobs/<%= jobs._id %>/edit">Edit</a>
+                    <form id="delete-form" action="/jobs/<%= jobs._id %>?_method=DELETE" method="POST">
+                        <button class="btn btn-xs btn-danger">Delete</button>
+                    </form>
+                <% } %>
+                </div>
+            </div>
+            <br>
+        </div>
+    </div>
+</div>    
+
+<% include ../partials/footer %>

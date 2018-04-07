@@ -1,0 +1,23 @@
+<% include ./partials/header %>
+<div class="container form-margin">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <h1 style="text-align: center;" id="mtp-h1">Fogot Password?</h1>
+            <p></p>
+            <br>
+            <form action="/forgot" method="POST">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input class="form-control" type="text" name="username" placeholder="username">
+                </div>
+               
+                <br>
+                <div class="form-group">
+                    <input class="btn btn-lg btn-outline-primary btn-block" type="submit" value="Submit">
+                </div>
+            </form>
+            
+        </div>
+    </div>
+</div>
+<% include ./partials/footer %>

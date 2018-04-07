@@ -1,0 +1,111 @@
+<% include ../partials/header %>
+<div class="container">
+<a id="show-btn" class="btn btn-secondary btn-sm" href="/profiles">Back to profiles</a>
+    <div class="row">
+        <div class="col-md-6 offset-md-3" style="text-align: center;" >
+            <h1 id="mtp-h1">Edit your profile <%= profile.name %></h1>
+            <p>Keep your profile up to date with your best stories</p>
+            <br>
+        </div>
+        <div class="col-md-6">
+            <form action="/profiles/<%= profile._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label>Your Name</label>
+                        <input class="form-control" type="text" name="profile[name]" value="<%= profile.name %>">
+                    </div>
+                    <div class="form-group">
+                        <label>Your Email</label>
+                        <input class="form-control" type="email" name="profile[userEmail]" value="<%= profile.userEmail %>">
+                    </div>
+                    <div class="form-group">
+                        <label>Update Profile Image</label>
+                        <input class="form-control" id ="profileHeroImage" type="file"
+                         name="profile[profileHeroImage]" 
+                         accept="application/x-zip-compressed,image/*"
+                        onchange="PreviewImage();" >
+                        <img src="<%= profile.profileHeroImage %>" id="uploadPreview" alt="img"
+                        height="150" width="202">
+                    </div>
+                    <div class="form-group">
+                        <label>Current City</label>
+                        <input class="form-control" type="text" name="profile[currentCity]" value="<%= profile.currentCity %>">
+                    </div>
+                    <div class="form-group">
+                        <label>Country</label>
+                        <input class="form-control" type="text" name="profile[currentCountry]" value="<%= profile.currentCountry %>">
+                    </div>
+                    <div class="form-group">
+                        <label>Where you make shit happen</label>
+                        <input class="form-control" type="text" name="profile[venue]" value="<%= profile.venue %>">
+                    </div>
+                    <div class="form-group">
+                        <label>What is your current role</label>
+                        <input class="form-control" type="text" name="profile[role]" value="<%= profile.role %>">
+                    </div>
+                     <div class="form-group">
+                    <label>What's your Insta profile?</label>
+                    <p class="form-control">@<input class="col-md-4" type="text" name="profile[instaHandle]" value="<%= profile.instaHandle %>"></p>
+                    </div>
+                    <div class="form-group">
+                        <label>And Twitter handle?</label>
+                        <p class="form-control">@ <input class="col-md-4" type="text" name="profile[twitterHandle]" value="<%= profile.twitterHandle %>"></p>
+                    </div>
+                    <div class="form-group">
+                        <label>A little quote you live by</label>
+                        <input class="form-control" type="text" name="profile[quote]" value="<%= profile.quote %>">
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>Your intro about yourself</label>
+                        <input class="form-control" type="text" name="profile[description]" value="<%= profile.description %>">
+                    </div>
+                    <div class="form-group">
+                        <label>Where did you cut your teeth and what lessons did you learn?</label>
+                        <input class="form-control" type="text" name="profile[learnSkills]" value="<%= profile.learnSkills %>">
+                    </div>
+                    <div class="form-group">
+                        <label>What's your greatest achievement?</label>
+                        <input class="form-control" type="text" name="profile[achievements]" value="<%= profile.achievements %>">
+                    </div>
+                    <div class="form-group">
+                        <label>What are you passionate about?</label>
+                        <input class="form-control" type="text" name="profile[passionateAbout]" value="<%= profile.passionateAbout %>">
+                    </div>
+                    <div class="form-group">
+                        <label>What do you love about your industry?</label>
+                        <input class="form-control" type="text" name="profile[industryLove]" value="<%= profile.industryLove %>">
+                    </div>
+                    <div class="form-group">
+                        <label>If you could change something about your industry what would it be?</label>
+                        <input class="form-control" type="text" name="profile[industryImprove]" value="<%= profile.industryImprove %>">
+                    </div>
+                    <div class="form-group">
+                        <label>Tell us 3 businesses or establishments that you would recommend for a great experience</label>
+                        <p class="form-control"><i class="fa fa-coffee" aria-hidden="true"></i> <input type="text" name="profile[recommendsFirst]" value="<%= profile.recommendsFirst %>"></p>
+                        <p class="form-control"><i class="fa fa-cutlery" aria-hidden="true"></i> <input type="text" name="profile[recommendsSecond]" value="<%= profile.recommendsSecond %>"></p>
+                        <p class="form-control"><i class="fa fa-glass" aria-hidden="true"></i> <input type="text" name="profile[recommendsThird]" value="<%= profile.recommendsThird %>"></p>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-lg btn-outline-primary btn-block">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+ <script>
+      function PreviewImage() {
+        var oFReader = new FileReader();
+        oFReader.readAsDataURL(document.getElementById("profileHeroImage").files[0]);
+        oFReader.onload = function (oFREvent) {
+            document.getElementById("uploadPreview").src = oFREvent.target.result;
+        };
+    }
+//   $(document).ready(function(){
+   
+//   })
+
+ </script>   
+<% include ../partials/footer %>

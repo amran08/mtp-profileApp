@@ -1,0 +1,38 @@
+<% include ../partials/header %>
+
+<div class="container">
+    <div>
+     <header class="jumbotron col-xs-12">
+        <div class="container">
+            <h1 id="mtp-h1">Share your own story</h1>
+            <p>Simply create your own MTP profile to share your unique story.</p>
+            <a class="btn btn-primary btn-lg" href="/profiles/new">CREATE A PROFILE</a>
+        </div>
+    </header>
+
+    <!-- SECTION 1 -->
+    <div class="profiles-section1">
+      <h2>MEET OUR LATEST PROFILES</h2>
+      <h5>Get to know some of the amazing people in our service industries who have shared their story</h5>
+    </div>
+
+    <!-- PROFILE CARDS -->
+    <section class="cards">
+            <% profiles.forEach(function(profile){ %>
+                    <div class="card">
+                            <img class="card-img-top img-fluid" src="<%= profile.profileHeroImage %>">
+                            <div class="card-text-padding">
+                                <a href="/profiles/<%= profile._id %>" id="mtp-h1"><h4><%=profile.name%></h4></a>
+                                <p class="card-text"><%= profile.role %> @ <strong><%= profile.venue %></strong></p>
+                                <p>
+                                    <a href="/profiles/<%= profile._id %>" class="btn btn-outline-info">Meet Me</a>
+                                </p>
+                            </div>
+                    </div>
+            <% }); %>    
+    </section>
+    
+    </div>
+</div>
+<br>
+<% include ../partials/footer %>

@@ -1,0 +1,275 @@
+body {
+    font-family: Roboto,sans-serif; 
+} 
+
+nav {
+    margin-bottom: 10px;
+}
+
+p {
+    font-family: Roboto,sans-serif;
+}
+
+h1 {
+   font-family: Oswald,sans-serif;
+}
+
+h2 {
+   font-family: Oswald,sans-serif;
+}
+
+h5 {
+    font-size: 1em;
+}
+
+label {
+    font-weight: bold;
+}
+
+/*tr {
+    width: 100%;
+}*/
+
+th {
+    font-family: Oswald,sans-serif;
+    font-weight: normal;
+    font-size: 1.1em;
+    width: auto;
+}
+
+footer {
+    background-color: #F0F0F0;
+    padding-top: 10px;
+}
+
+a {
+    color: black;
+}
+
+textarea.form-control::-webkit-input-placeholder { color: Silver; }  /* WebKit, Blink, Edge */
+input.form-control::-webkit-input-placeholder { color: Silver; }  /* WebKit, Blink, Edge */
+
+@media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+    [class*="col-"] {
+        width: 100%;
+    }
+}
+
+.jumbotron {
+    padding-bottom: 20%;
+    padding-top: 50px;
+    background-image: url("https://image.ibb.co/n4UG5n/toby_header.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: auto;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    min-height: 250px;
+}
+
+.jumbotron-2 {
+    background-image: url("https://i.imgur.com/XvV2Kju.jpg");
+}
+
+.profiles-section1 {
+    background-color: #eafcfc;
+    padding: 50px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.jobs-section1 {
+    background-color: #ecf9e3;
+    padding: 50px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.cards {
+   display: flex;
+   flex-wrap: wrap;
+   justify-content: space-between;
+}
+ 
+.card {
+    flex: 0 1 24%;
+    font-family: Oswald,sans-serif;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    box-shadow: 5px 5px 20px 0px rgba(0,0,0,0.15);
+}
+
+.card-text-padding {
+    padding: 10px;
+}
+
+.card-title {
+    padding-top: 20px;
+    font-size: 1.5em;
+    text-transform: uppercase;
+    font-family: Oswald,sans-serif;
+}
+
+.card-text {
+    padding-bottom: 10px;
+    font-family: Roboto,sans-serif;
+    font-size: 0.8em;
+}
+
+#card-no-outline {
+    border-style: none;
+}
+
+.btn {
+    font-family: Oswald,sans-serif;
+}
+
+.navbar {
+    height: auto;
+    border-radius: 0px;
+    font-family: Oswald,sans-serif;
+    background-color: #F8F8F8;
+}
+
+.navbar-brand {
+    font-weight: 3em;
+}
+
+.nav li {
+    text-transform: uppercase;
+    font-size: 1.5em;
+}
+
+#beta {
+    font-size: 0.5em;
+}
+
+.footer-section {
+    padding-bottom: 100px;
+    margin-top: 20px;
+    padding-top: 30px;
+    padding: 5px;
+}
+
+.footer-section ul {
+    list-style: none;
+    display: inline;
+}
+
+.footer-section a {
+    color: #000;
+}
+
+#thumbnail-row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.social-list {
+    padding-left: 0px;
+    list-style-type: none;
+}
+
+.social-list li {
+    font-size: 1.3em;
+    padding-top: 0.5em;
+}
+
+#mtp-h1 {
+    font-family: Oswald,sans-serif;
+    text-transform: uppercase;
+}
+
+#mtp-h4 {
+    font-family: Oswald,sans-serif;
+    text-transform: uppercase;
+    padding-bottom: 10px;
+}
+
+#mtp-h4-index {
+    font-family: Oswald,sans-serif;
+    text-transform: uppercase;
+    font-size: 0.9em;
+}
+
+.profile-name {
+    font-family: Oswald,sans-serif;
+    text-transform: uppercase;
+}
+
+.show-name {
+    font-family: Oswald,sans-serif;
+    font-weight: 400;
+    font-size: 3em;
+    text-transform: uppercase;
+}
+
+.show-name-create {
+    font-family: Oswald,sans-serif;
+    font-weight: 400;
+    font-size: 3em;
+    text-transform: uppercase;
+    padding-bottom: 20px;
+    text-align: center;
+}
+
+#show-btn {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.form-margin {
+    margin-top: 20px; 
+    margin-bottom: 10%;
+}
+
+#delete-form {
+    display: inline
+}
+
+.qoute {
+    font-family: Oswald,sans-serif;
+    text-transform: uppercase;
+    font-size: 1.5rem;
+    font-weight: 500;
+    line-height: 1.5em;
+    margin: 12px 20px 12px;
+    background-color: #F8F8F8;
+    text-align: center;
+    padding: 10px;
+}
+
+/* Flexbox stuff */
+
+@media screen and (min-width : 20em) {
+    .cards {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .card {
+        flex: 0 1 calc(100% - 1em);
+    }
+    
+}
+
+@media screen and (min-width: 40em) {
+    .cards {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .card {
+        flex: 0 1 calc(50% - 1em);
+    }
+}
+
+@media screen and (min-width: 60em) {
+    
+    .card {
+        flex: 0 1 calc(25% - 1em);
+    }
+}
