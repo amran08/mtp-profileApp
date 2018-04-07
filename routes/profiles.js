@@ -55,7 +55,7 @@ router.get("/", function(req, res){
 
 // CREATE new profile route
 
-router.post("/",upload,function(req, res,err_1){
+router.post("/",upload,function(req, res){
     if(isFileExists(req)==false)
      {
         req.flash("error", "Please Choose a File");
