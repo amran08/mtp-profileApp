@@ -21,12 +21,11 @@ var commentRoutes       = require("./routes/comments"),
 
     //put your mlab connection url here
 
-var DB_CONNECTION_URL = '';
+var DB_CONNECTION_URL = 'mongodb://mtp-admin:ht7#oP95wJqPujjAX@ds121965.mlab.com:21965/mtpprofiles';
     mongoose.connect(DB_CONNECTION_URL);
     var db = mongoose.connection;
     db.on('error', console.error.bind(console, 'connection error:'));
 //seedDB();
-
 
 app.use(bodyParser.text());
 app.use(bodyParser.urlencoded({extended:true}));
