@@ -10,12 +10,11 @@ var BucketName = "mtp-profiles-content"
 var photoBucket = new AWS.S3({params: {Bucket: BucketName}})
 var multer = require('multer')
 const multerS3 = require('multer-s3');
-var MAX_FILE_SIZE = 2*1024*1024 //2 MB 
+
 const onFinished = require('on-finished');
 
 var upload = multer({
     limits:{
-        fileSize:MAX_FILE_SIZE,
         files:1
     },
     storage: multerS3({
@@ -56,7 +55,7 @@ router.get("/", function(req, res){
 
 // CREATE new profile route
 
-router.post("/",upload,function(req, res){
+router.post("/",upload,function(req, res,err_1){
     if(isFileExists(req)==false)
      {
         req.flash("error", "Please Choose a File");
