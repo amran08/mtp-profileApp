@@ -138,7 +138,7 @@ router.get('/forgot', function(req, res) {
       },
       function(token, user, done) {
        
-        sgMail.setApiKey('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');
+        sgMail.setApiKey('');
         const msg = {
           to: user.username,
           from: 'itech0805117@gmail.com',
