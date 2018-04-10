@@ -21,9 +21,11 @@
                         <label>Update Profile Image</label>
                         <input class="form-control" id ="profileHeroImage" type="file"
                          name="profileHeroImage" 
-                         accept="application/x-zip-compressed,image/*"
-                        onchange="PreviewImage();" >
-                        <img src="<%= profile.profileHeroImage %>" id="uploadPreview" alt="img"
+                         accept="application/x-zip-compressed,image/*">
+                         
+                        <p></p>
+                         <div id="profileImageError"></div>
+                        <img src="<%= profile.profileHeroImage %>" id="uploadPreview" 
                         height="150" width="202">
                     </div>
                     <div class="form-group">
@@ -87,7 +89,7 @@
                         <p class="form-control"><i class="fa fa-glass" aria-hidden="true"></i> <input type="text" name="profile[recommendsThird]" value="<%= profile.recommendsThird %>"></p>
                     </div>
                     <div class="form-group">
-                        <button class="btn btn-lg btn-outline-primary btn-block">Submit</button>
+                        <button class="btn btn-lg btn-outline-primary btn-block" id="edit-profile-submit">Submit</button>
                     </div>
                 </div>
             </form>
@@ -96,16 +98,82 @@
 </div>
 
  <script>
-      function PreviewImage() {
+     
+
+$(document).ready(function(){   
+var MAX_FILE_SIZE_PROFILE = 2*1024*1024
+var MAX_FILE_SIZE_PROFILE_IN_MB = 2
+var fileSize_err ="<h5 style='color:red'>Maximum Size of Profile Image is "+MAX_FILE_SIZE_PROFILE/(1024*1024)+" MB</h3>"
+var mimeType_err = "<h5 style='color:red'>Please Upload only Image File</h3>"
+var SubmitBtn = $("#edit-profile-submit")
+var uploadPreview = $("#uploadPreview")  
+  SubmitBtn.prop('disabled', false);
+  uploadPreview.show()
+  
+$('#profileHeroImage').on('change',function(){
+
+  if($(this).get(0).files.length > 0){ 
+    var file = $(this).get(0).files[0]
+    var fileSize = file.size
+    var fileReader = new FileReader();
+    fileReader.onloadend = function(e) {
+    var arr = (new Uint8Array(e.target.result)).subarray(0, 4);
+    var header = "";
+    for(var i = 0; i < arr.length; i++) {
+        header += arr[i].toString(16);
+    } 
+    if(mimeType(header)=='unknown'){
+        $("#profileImageError").html("")
+        $("#profileImageError").html(mimeType_err)
+        uploadPreview.hide()
+        return SubmitBtn.prop('disabled', true);
+    }
+ 
+  }
+   fileReader.readAsArrayBuffer(file);   
+   if(fileSize>MAX_FILE_SIZE_PROFILE){
+        $("#profileImageError").html("")
+        $("#profileImageError").html(fileSize_err)
+        uploadPreview.hide()
+        return SubmitBtn.prop('disabled', true);
+    }
+    
+    $("#profileImageError").html("")
+    uploadPreview.show()
+    PreviewImage()
+    return SubmitBtn.prop('disabled', false);
+}
+
+});
+
+function mimeType(headerString) {
+  switch (headerString) {
+    case "89504e47":
+      type = "image/png";
+      break;
+    case "47494638":
+      type = "image/gif";
+      break;
+    case "ffd8ffe0":
+    case "ffd8ffe1":
+    case "ffd8ffe2":
+      type = "image/jpeg";
+      break;
+    default:
+      type = "unknown";
+      break;
+  }
+  return type;
+}
+
+ function PreviewImage() {
         var oFReader = new FileReader();
         oFReader.readAsDataURL(document.getElementById("profileHeroImage").files[0]);
         oFReader.onload = function (oFREvent) {
             document.getElementById("uploadPreview").src = oFREvent.target.result;
         };
     }
-//   $(document).ready(function(){
-   
-//   })
+}) 
 
  </script>   
 <% include ../partials/footer %>

@@ -1,5 +1,10 @@
 <% include ../partials/header %>
 
+<style>
+    /* .card-img-top img-fluid{ */
+        /* image-orientation: from-image;
+ } */
+</style>
 <div class="container">
     <div>
      <header class="jumbotron col-xs-12">
@@ -21,6 +26,7 @@
             <% profiles.forEach(function(profile){ %>
                     <div class="card">
                             <img class="card-img-top img-fluid" src="<%= profile.profileHeroImage %>">
+                            
                             <div class="card-text-padding">
                                 <a href="/profiles/<%= profile._id %>" id="mtp-h1"><h4><%=profile.name%></h4></a>
                                 <p class="card-text"><%= profile.role %> @ <strong><%= profile.venue %></strong></p>

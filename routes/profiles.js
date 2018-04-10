@@ -10,17 +10,19 @@ var BucketName = "mtp-profiles-content"
 var photoBucket = new AWS.S3({params: {Bucket: BucketName}})
 var multer = require('multer')
 const multerS3 = require('multer-s3');
+var MAX_FILE_SIZE_PROFILE = 2*1024*1024 //2 MB
 
-const onFinished = require('on-finished');
 
 var upload = multer({
     limits:{
-        files:1
+        files:1,
+        fileSize:MAX_FILE_SIZE_PROFILE,
     },
     storage: multerS3({
         s3: photoBucket,
         bucket: BucketName,
         acl: 'public-read',
+        cacheControl:'private, no-cache, no-store, must-revalidate',
         metadata: function (req, file, cb) {
             cb(null, { fieldName: file.fieldname });
         },
@@ -30,17 +32,35 @@ var upload = multer({
             {
                 Profile.findById(req.params.id,function(err, Profile){
                     var url = Profile.profileHeroImage
-                    cb(null,url.split('/').slice(-1)[0])
+                    if(url !=undefined)
+                     {
+                        cb(null,url.split('/').slice(-1)[0])
+                     }
+                     else{
+                        cb(null, Date.now().toString())
+                     }
                 });  
             }
             //creating profile 
             else{
                 cb(null, Date.now().toString())
             }
-        }
-    })
-}).single('profileHeroImage') 
+        },
+        
+    }),
+    fileFilter:fileFilter
+})
 
+function fileFilter (req, file, cb){
+    var type = file.mimetype;
+    var typeArray = type.split("/");
+    if (typeArray[0] == "image") {
+      cb(null, true);
+    }
+    else {
+      return cb(new Error('FILE_MIME_NOT_OK'), false);
+    }
+  }
 //INDEX Route
 router.get("/", function(req, res){
     // Get all profiles from DB
@@ -55,18 +75,11 @@ router.get("/", function(req, res){
 
 // CREATE new profile route
 
-router.post("/",upload,function(req, res){
-    if(isFileExists(req)==false)
-     {
-        req.flash("error", "Please Choose a File");
+router.post("/",upload.single('profileHeroImage'),function(req, res,err){     
+    if(!req.file){
+        req.flash("error", "Please Select a File");
         return res.redirect("back")
-     }
-    if (!/^image\/(jpe?g|png|gif)$/i.test(req.file.mimetype)) {
-       
-         req.flash("error", "Only Image file can be uploaded !!!");
-         return res.redirect("back");
     }
-
     var name = req.body.name,
     userEmail = req.body.userEmail,
     desc = req.body.description,
@@ -125,6 +138,7 @@ Profile.create(newProfile, function(err, newlyCreated){
 
 });
 
+
 // NEW Route
 router.get("/new", middleware.isLoggedIn, function(req, res){
     res.render("profiles/new");
@@ -152,7 +166,8 @@ router.get("/:id/edit", middleware.checkProfileOwnership, function(req, res) {
 });
 
 
-router.put("/:id",upload, middleware.checkProfileOwnership,function(req, res){
+router.put("/:id",upload.single('profileHeroImage'),function(req, res,err){
+    
     Profile.findByIdAndUpdate(req.params.id, req.body.profile, function(err, updatedProfile){
         if (err){
             res.redirect("/profiles");
@@ -175,13 +190,25 @@ router.delete("/:id", middleware.checkProfileOwnership, function(req, res){
 });
 
 function isFileExists(request){
-    if(request.file)
-    {
+    if(request.file) {
         return true 
     }
     else{
         return false
     }
 }
+
+router.use(function (err, req, res, next) {
+    if (err.code === 'LIMIT_FILE_SIZE') {
+        req.flash("error", "Maximum Size of Profile Image  is "+MAX_FILE_SIZE_PROFILE/(1024*1024)+" MB");
+        return res.redirect("back");
+    }
+    if (err.message ==='FILE_MIME_NOT_OK') {
+        req.flash("error", "Please Upload only Image File");
+        return res.redirect("back");
+    }
+  
+    // Handle any other errors
+  })
 
 module.exports= router;

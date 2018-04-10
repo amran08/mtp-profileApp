@@ -52,12 +52,6 @@ app.use(function(req, res, next){
     next();
 });
 
-app.use(function (req, res, next) {
-    res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
-    res.header('Expires', '-1');
-    res.header('Pragma', 'no-cache');
-    next()
-});
 
 
 app.use("/", indexRoutes);
@@ -67,6 +61,6 @@ app.use("/jobs", jobRoutes);
 
 
 
-app.listen(process.env.PORT||3000, process.env.IP||'127.0.0.1', function(){
+app.listen(process.env.PORT||3000, process.env.IP||'0.0.0.0', function(){
     console.log("The MTP Server Has Started!!!") 
  });

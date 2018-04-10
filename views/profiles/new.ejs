@@ -15,7 +15,7 @@
                 </div>
                 <div class="form-group">
                     <label>Your Email</label>
-                    <input class="form-control" type="email" name="userEmail" placeholder="person@something.com" required>
+                    <input class="form-control" type="email" name="userEmail" placeholder="person@something.com" required >
                 </div>
                 <div class="form-group">
                     <label>Upload a Profile Image</label>
@@ -24,14 +24,14 @@
                      type="file" 
                      name="profileHeroImage" placeholder="" 
                      onchange=""
-                     accept="application/x-zip-compressed,image/*"  required>
-                     
-
+                     accept="application/x-zip-compressed,image/*" required >
+                     <p></p>
+                     <div id="profileImageError"></div>
                     <p>Good quality pics please. This ain't no shitshow</p>
                 </div>
                 <div class="form-group">
                     <label>Where do you currently work?</label>
-                    <input class="form-control" type="text" name="venue" required>
+                    <input class="form-control" type="text" name="venue" required >
                 </div>
                 <div class="form-group">
                     <label>What is your current role?</label>
@@ -47,7 +47,7 @@
                 </div>
                 <div class="form-group">
                     <label>What's your Insta profile?</label>
-                    <p class="form-control">@ <input class="col-md-4" type="text" name="instaHandle"required></p>
+                    <p class="form-control">@ <input class="col-md-4" type="text" name="instaHandle" required></p>
                 </div>
                 <div class="form-group">
                     <label>And Twitter handle?</label>
@@ -61,7 +61,7 @@
             <div class="col-sm-6">
                 <div class="form-group">
                     <label>Tell us a little intro about yourself</label>
-                    <textarea class="form-control" rows="5" type="text" maxlength="1000" name="description" placeholder="How ended up where you are. Max 1000 characters"required ></textarea>
+                    <textarea class="form-control" rows="5" type="text" maxlength="1000" name="description" placeholder="How ended up where you are. Max 1000 characters" required></textarea>
                 </div>
                 <div class="form-group">
                     <label>Where did you cut your teeth and what lessons did you learn?</label>
@@ -81,7 +81,7 @@
                 </div>
                 <div class="form-group">
                     <label>If you could change something about your industry what would it be?</label>
-                    <textarea class="form-control" rows="3" type="text" name="industryImprove" maxlength="1000" placeholder="Go on, we're all friends here" required></textarea>
+                    <textarea class="form-control" rows="3" type="text" name="industryImprove" maxlength="1000" placeholder="Go on, we're all friends here" required ></textarea>
                 </div>
                 <div class="form-group">
                     <label>Tell us 3 businesses or establishments that you would recommend for a great experience</label>
@@ -90,7 +90,7 @@
                     <p class="form-control"><i class="fa fa-glass" aria-hidden="true"></i> <input type="text" name="recommendsThird" maxlength="100" required></p>
                 </div>
                 <div class="form-group">
-                    <button class="btn btn-lg btn-outline-primary btn-block">Submit</button>
+                    <button class="btn btn-lg btn-outline-primary btn-block" id="new-profile-submit">Submit</button>
                 </div>
             </div>
         </form>
@@ -98,14 +98,68 @@
 </div>
 
 <script>
+ $(document).ready(function(){   
+var MAX_FILE_SIZE_PROFILE = 2*1024*1024
+var MAX_FILE_SIZE_PROFILE_IN_MB = 2
+var fileSize_err ="<h5 style='color:red'>Maximum Size of Profile Image is "+MAX_FILE_SIZE_PROFILE/(1024*1024)+" MB</h3>"
+var mimeType_err = "<h5 style='color:red'>Please Upload only Image File</h3>"
+var SubmitBtn = $("#new-profile-submit");
+  
+  SubmitBtn.prop('disabled', true);
+  
+$('#profileHeroImage').on('change',function(){
 
-function PreviewImage() {
-        var oFReader = new FileReader();
-        oFReader.readAsDataURL(document.getElementById("profileHeroImage").files[0]);
-        oFReader.onload = function (oFREvent) {
-            document.getElementById("uploadPreview").src = oFREvent.target.result;
-        };
+  if($(this).get(0).files.length > 0){ 
+    var file = $(this).get(0).files[0]
+    var fileSize = file.size
+    var fileReader = new FileReader();
+    fileReader.onloadend = function(e) {
+    var arr = (new Uint8Array(e.target.result)).subarray(0, 4);
+    var header = "";
+    for(var i = 0; i < arr.length; i++) {
+        header += arr[i].toString(16);
+    } 
+    if(mimeType(header)=='unknown'){
+        $("#profileImageError").html("")
+        $("#profileImageError").html(mimeType_err)
+        return SubmitBtn.prop('disabled', true);
     }
+ 
+  }
+   fileReader.readAsArrayBuffer(file);   
+   if(fileSize>MAX_FILE_SIZE_PROFILE){
+        $("#profileImageError").html("")
+        $("#profileImageError").html(fileSize_err)
+        return SubmitBtn.prop('disabled', true);
+    }
+
+    $("#profileImageError").html("")
+    return SubmitBtn.prop('disabled', false);
+}
+
+});
+
+function mimeType(headerString) {
+  switch (headerString) {
+    case "89504e47":
+      type = "image/png";
+      break;
+    case "47494638":
+      type = "image/gif";
+      break;
+    case "ffd8ffe0":
+    case "ffd8ffe1":
+    case "ffd8ffe2":
+      type = "image/jpeg";
+      break;
+    default:
+      type = "unknown";
+      break;
+  }
+  return type;
+}
+}) 
+
 </script>    
 
 <% include ../partials/footer %>
